@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>TetoTetoProlog example</title>
+<!-- ========================================================================
+TetoTetoProlog example
+written by ASAKURA, Hunyosi.
+
+This software is made available under
+the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+See "LICENSE" file.
+======================================================================== -->
+<script src="../js/tetoprolog.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+ 'use strict';
+
+ //var ttp = TetoTetoProlog;
+ var ctx = ttp(),
+     inStrm = new ttp.PStrStream("human(socrates).\nmotal(X):-human(X)."),
+     outStrm = new ttp.PStrStream(),
+     errStrm = new ttp.PStrStream();
+
+ ctx.trace(true);
+ ctx.config.seqSteps=1;
+
+ ctx.query(
+  ttp.PTerm('ttp_compile_stream', inStrm, outStrm, errStrm)
+ )
+ .done(function(e, d){
+   ttp.pp('outStrm=' + outStrm.toString());
+ })
+ .fail(function(e){
+   ttp.pp('fail(e)=', e);
+ })
+ .call();
+
+});
+</script>
+</head>
+<body>
+<h1>TetoTetoProlog example</h1>
+</body>
+</html>

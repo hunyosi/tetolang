@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>TetoTetoProlog example</title>
+<!-- ========================================================================
+TetoTetoProlog example
+written by ASAKURA, Hunyosi.
+
+This software is made available under
+the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+See "LICENSE" file.
+======================================================================== -->
+<script src="../js/tetotetoprolog.js"></script>
+<script src="ttp_example.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+ 'use strict';
+
+ //var ttp = TetoTetoProlog;
+ var example_no = 0, prefix, varX;
+
+ function prepare() {
+  var example_name;
+  ++ example_no;
+  example_name = 'example' + example_no;
+  prefix='[' + example_name + '] ';
+  varX = ttp.PVar();
+  ttp.nl()
+  ttp.pp('******** ' + example_name + ' ********')
+ }
+
+ function doQuery(pred, dfd) {
+  ttp_example.query(pred)
+  .done(doneFunc)
+  .fail(failFunc)
+  .call();
+
+  function doneFunc(e, d){
+   var sep=(d ? ' ;' : '');
+   ttp.pp(prefix + 'varX=' + varX.toString(e) + sep);
+   if (d) {
+    d.done(doneFunc).fail(failFunc).call();
+   } else {
+    dfd.resolve();
+   }
+  }
+
+  function failFunc(e){
+   ttp.pp(prefix + 'fail(e)=', e);
+   dfd.resolve();
+  }
+ }
+
+ ttp_example.trace(true);
+
+ ttp.Promise(function(dfd){
+  prepare();
+  doQuery(
+   ttp.PTerm('immortal', varX)
+  , dfd);
+ })
+ .then(ttp.Promise(function(dfd){
+  prepare();
+  doQuery(
+   ttp.PTerm('example_lst_add', ttp.toPLst([1, 2, 3]), ttp.toPLst([4, 5, 6]), varX)
+  , dfd);
+ }))
+ .then(ttp.Promise(function(dfd){
+  prepare();
+  doQuery(
+   ttp.PTerm('example_base_name_str', ttp.PStr('a/b/cde.js'), varX)
+  , dfd);
+ }))
+ .call();
+
+});
+</script>
+</head>
+<body>
+<h1>TetoTetoProlog example</h1>
+</body>
+</html>
