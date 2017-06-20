@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ltest wasm</title>
+<script>
+'use strict';
+document.addEventListener('DOMContentLoaded', function(){
+	const inpWasmFile = document.getElementById('wasmFile');
+	const btnWasmExec = document.getElementById('wasmExec');
+	btnWasmExec.addEventListener('click', function(){
+		const p = document.createElement('p');
+		p.append(document.createTextNode('hello'));
+		document.body.append(p);
+
+		if (inpWasmFile.files.length < 1) {
+			alert("choice a file");
+			return;
+		}
+
+		new Promise((resolve, reject)=>{
+			const reader = new FileReader();
+			reader.addEventListener('loadend', ()=>{
+				resolve(reader.result);
+			});
+			reader.readAsArrayBuffer(inpWasmFile.files[0]);
+		}).then((result)=>WebAssembly.instantiate(result)
+		).then(({module, instance})=>{
+			const val = instance.exports.main(1);
+
+			const p = document.createElement('p');
+			p.append(document.createTextNode('val='+val));
+			document.body.append(p);
+		});
+	});
+});
+</script>
+</head>
+<body>
+<p><label>wasm file: <input type="file" id="wasmFile"></label></p>
+<p><button id="wasmExec">wasm execute</button></p>
+</body>
+</html>

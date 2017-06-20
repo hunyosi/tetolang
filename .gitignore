@@ -1,0 +1,12 @@
+.DS_Store
+*.DS_Store
+*~
+*.swp
+*.o
+*.tmp
+*.exe
+testprog
+testprog.*
+testprog.*/
+btoh
+tetolang
