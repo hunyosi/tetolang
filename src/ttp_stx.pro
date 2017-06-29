@@ -21,7 +21,7 @@ ttp_stx_inner_expr(Ai,Ao, Bi,Bo) :-
 
 ttp_stx_expr([A|A2],Ao, P, Bi,Bo) :-
  [punc('('), term(X) | _] = Bi,
- atom(X),
+% atom(X),
  ttp_stx_inner_expr(A2,A3, [A|Bi],Bi2),
  ttp_stx_expr(A3,Ao, P, Bi2,Bo)
 .
@@ -200,7 +200,7 @@ ttp_stx_expr(A,Ao, P, Bi,Bo) :-
 
 
 ttp_stx_expr(Ai,Ao, _, [punc(')'), args(X2), punc('('), term(X1) | Bt],Bo) :-
- atom(X1),
+% atom(X1),
  Ao = Ai,
  T = pred([X1 | X2]),
  Bo = [term(T) | Bt]
