@@ -1,0 +1,13 @@
+if(aaaa == bbbb)
+	print('aaaa')
+;else
+	print('bbbb')
+
+xxx:func(aaaa, bbbb){
+	if(aaaa > bbbb)
+		print('aaaa')
+	;elsif(aaaa < bbbb)
+		print('bbbb')
+	;else
+		print('cccc')
+}

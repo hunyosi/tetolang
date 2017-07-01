@@ -4,22 +4,43 @@
 
 ttp_lex_tokens(Xb,Xt, Y) :-
  !,
- ttp_lex_tokens_impl(Xb,Xt, Y,Y, Y,[])
+ ttp_lex_tokens_impl(Xb,Xt, Y,Y, Y,[], Z,Z)
 .
 
 
-ttp_lex_tokens_impl(Xb,[], Yb,Yt, Yb,Yt) :-
+ttp_lex_tokens_impl(Xb,[], Yb,Yt, Yb,Yt, Zb,Zt) :-
  ttp_lex_line_end(Xb),
  !
 .
 
-ttp_lex_tokens_impl(Xb,Xt, Yb,[Y | Yt2], Yb,Ytn) :-
+ttp_lex_tokens_impl(Xb,Xt, Yb,[Y | Yt2], Yb,Ytn, Zb,Zt) :-
  ttp_lex_token(Xb,Xb2, Y),
  !,
- ttp_lex_tokens_impl(Xb2,Xt, Yb,Yt2, Yb,Ytn)
+ ttp_lex_tokens_impl(Xb2,Xt, Yb,Yt2, Yb,Ytn, Zb,Zt)
 .
 
-ttp_lex_tokens_impl(Xt,Xt, Yb,Yt, Yb,Yt).
+ttp_lex_tokens_impl(Xt,Xt, Yb,Yt, Yb,Yt, Zb,Zt) :- !.
+
+
+ttp_lex_tokens_line_top(Xb,Xt, Yb,Yt, Yb,Yt, Zb,Zt) :-
+
+ !
+.
+
+ttp_lex_tokens_cnt_indent([8|Xbn],Xt, ICnt,OCnt) :-
+ NCnt is ICnt + 1,
+ !,
+ ttp_lex_tokens_cnt_indent(Xbn,Xt, NCnt,OCnt)
+.
+
+ttp_lex_tokens_cnt_indent([8|Xbn],Xt, ICnt,OCnt) :-
+
+ttp_lex_tokens_cnt_indent(X,X, Cnt,Cnt) :-
+ !,
+ ttp_lex_tokens_cnt_indent(Xbn,Xt, ICnt,OCnt)
+.
+
+
 
 
 ttp_lex_token(Xb,Xt, Y) :-
