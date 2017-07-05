@@ -34,7 +34,8 @@ ttp_indentcnt_line_body([0x20 | Xt], N, M, Y) :-
 	!,
 	ttp_indentcnt_line_body(Xt, N, M, Y).
 
-ttp_indentcnt_line_body([_ | Xt], M, M, Y) :-
+ttp_indentcnt_line_body([_ | Xt], N, M, Y) :-
 	N2 is N + 1,
 	!,
 	ttp_indentcnt_line_body(Xt, N2, M, Y).
+
