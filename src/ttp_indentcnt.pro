@@ -4,8 +4,8 @@ ttp_indentcnt(X, Y) :-
 	!.
 
 ttp_indentcnt_impl(X, CntStk, Y) :-
-	ttp_indentcnt_line(X, N, X2),
-	ttp_indentcnt_process_line(X, N, CntStk, CntStk2, X2),
+	ttp_indentcnt_line(X, N, Body, X2),
+	ttp_indentcnt_process_line(X, Body, N, CntStk, CntStk2, X2),
 	!,
 	ttp_indentcnt_impl(X, CntStk2, Y).
 
@@ -18,9 +18,9 @@ ttp_indentcnt_process_line(X, N, X2)
 */
 
 
-ttp_indentcnt_line(X, N, Y) :-
+ttp_indentcnt_line(X, N, Body, Y) :-
 	ttp_indentcnt_line_count_intent(X, 0, N1, X2),
-	ttp_indentcnt_line_skip_blank(X2, X3)
+	ttp_indentcnt_line_skip_blank(X2, X3),
 	ttp_indentcnt_line_body(X3, Body, Y),
 	(Body = [] -> N = -1 ; N = N1),
 	!.
@@ -29,7 +29,7 @@ ttp_indentcnt_line(X, N, Y) :-
 ttp_indentcnt_line_count_intent([0x09 | Xt], N, M, Y) :-
 	N2 is N + 1,
 	!,
-	ttp_indentcnt_line_top(Xt, N2, M, Y).
+	ttp_indentcnt_line_count_intent(Xt, N2, M, Y).
 
 ttp_indentcnt_line_count_intent(Y, M, M, Y) :-
 	!.

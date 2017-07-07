@@ -5,8 +5,8 @@
 
 ttp_test_indentcnt_line(Flag, Cnt, CntN) :-
 	ttpu_asserts([
-		ttp_indentcnt_line("\t\tabc\nabc", 2, "abc")
-		, ttp_indentcnt_line("\t\t \nabc", -1, "abc")
+		ttp_indentcnt_line("\t\tabc\ndef", 2, "abc", "def")
+		, ttp_indentcnt_line("\t\t \ndef", -1, [], "def")
  	], Flag, Cnt, CntN).
 
 
