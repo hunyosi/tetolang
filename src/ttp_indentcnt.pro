@@ -16,30 +16,30 @@ ttp_indentcnt_impl(X, CntStk, Y) :-
 ttp_indentcnt_process_line(N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 	[CurCnt | _] = CntStkSrc,
 	Diff is N - CurCnt,
-	!
+	!,
 	ttp_indentcnt_process_line_impl(
 			Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt),
 	!.
 
-ttp_indentcnt_process_line_impl(0, N, CntStk, CntStk, Body, Y, Yt) :-
-	Y - [ 0x0A | Y2],
+ttp_indentcnt_process_line_impl(0, _, CntStk, CntStk, Body, Y, Yt) :-
+	Y = [ 0x0A | Y2],
 	ttp_indentcnt_process_line_put(Body, Y2, Yt),
 	!.
 
 ttp_indentcnt_process_line_impl(1, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 	CntStkDst = [N | CntStkSrc],
-	Y - [ 0'{ | Y2],
+	Y = [ 0'{, 0x0A | Y2 ],
 	ttp_indentcnt_process_line_put(Body, Y2, Yt),
 	!.
 
-ttp_indentcnt_process_line_impl(2, N, CntStk, CntStk, Body, Y, Yt) :-
-	Y - [ 0x20 | Y2],
+ttp_indentcnt_process_line_impl(2, _, CntStk, CntStk, Body, Y, Yt) :-
+	Y = [ 0x20 | Y2],
 	ttp_indentcnt_process_line_put(Body, Y2, Yt),
 	!.
 
 ttp_indentcnt_process_line_impl(-1, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
-	CntStkDst = [N | CntStkSrc],
-	Y - [ 0'} 0x0A | Y2],
+	CntStkSrc = [_ | CntStkDst],
+	Y - [ 0x0A, 0'}, 0x0A | Y2],
 	ttp_indentcnt_process_line_put(Body, Y2, Yt),
 	!.
 

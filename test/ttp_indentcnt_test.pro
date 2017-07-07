@@ -10,9 +10,16 @@ ttp_test_indentcnt_line(Flag, Cnt, CntN) :-
  	], Flag, Cnt, CntN).
 
 
+ttp_test_indentcnt_lines(Flag, Cnt, CntN) :-
+	ttpu_asserts([
+		ttp_indentcnt("aaa\n\tbbb", "aaa{\nbbb\n}\n")
+	], Flag, Cnt, CntN).
+
+
 ttp_test_indentcnt_all(Flag) :-
 	ttpu_unit_tests([
-		  ttp_test_indentcnt_line
+		  ttp_test_indentcnt_line,
+		  ttp_test_indentcnt_lines
 	], Flag).
 
 
