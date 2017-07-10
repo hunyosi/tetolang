@@ -9,7 +9,7 @@ ttpu_assert(Test, true, Result) :-
   Result = ok,
   write('[OK]');
   Result = ng,
-  write('[NL]')
+  write('[NG]')
  ),
  nl,
  !

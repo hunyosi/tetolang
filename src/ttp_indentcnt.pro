@@ -5,6 +5,10 @@ ttp_indentcnt(X, Y) :-
 	!.
 
 
+ttp_indentcnt_impl([], CntStk, Y) :-
+	ttp_indentcnt_process_line(0, CntStk, _, [], Y, []),
+	!.
+
 ttp_indentcnt_impl(X, CntStk, Y) :-
 	ttp_indentcnt_line(X, N, Body, X2),
 	ttp_indentcnt_process_line(N, CntStk, CntStk2, Body, Y, Y2),
@@ -37,11 +41,15 @@ ttp_indentcnt_process_line_impl(2, _, CntStk, CntStk, Body, Y, Yt) :-
 	ttp_indentcnt_process_line_put(Body, Y2, Yt),
 	!.
 
-ttp_indentcnt_process_line_impl(-1, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
-	CntStkSrc = [_ | CntStkDst],
-	Y - [ 0x0A, 0'}, 0x0A | Y2],
-	ttp_indentcnt_process_line_put(Body, Y2, Yt),
-	!.
+ttp_indentcnt_process_line_impl(Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
+	Diff < 0,
+	[CurCnt | CntStkSrc2] = CntStkSrc,
+	Diff2 is N - CurCnt,
+	Y = [ 0x0A, 0'} | Y2],
+	!,
+	ttp_indentcnt_process_line_impl(
+			Diff2, CurCnt, CntStkSrc2, CntStkDst,
+			Body, Y2, Yt).
 
 
 ttp_indentcnt_process_line_put([], LastT, LastT) :-
