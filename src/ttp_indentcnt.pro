@@ -48,7 +48,7 @@ ttp_indentcnt_process_line_impl(Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 	Y = [ 0x0A, 0'} | Y2],
 	!,
 	ttp_indentcnt_process_line_impl(
-			Diff2, CurCnt, CntStkSrc2, CntStkDst,
+			Diff2, N, CntStkSrc2, CntStkDst,
 			Body, Y2, Yt).
 
 
