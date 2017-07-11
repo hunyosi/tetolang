@@ -22,7 +22,7 @@ ttp_indentcnt_process_line(N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 	Diff is N - CurCnt,
 	!,
 	ttp_indentcnt_process_line_impl(
-			Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt),
+			Diff, N, CntStkSrc2, CntStkDst, Body, Y, Yt),
 	!.
 
 ttp_indentcnt_process_line_impl(0, _, CntStk, CntStk, Body, Y, Yt) :-

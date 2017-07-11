@@ -12,7 +12,8 @@ ttp_test_indentcnt_line(Flag, Cnt, CntN) :-
 
 ttp_test_indentcnt_lines(Flag, Cnt, CntN) :-
 	ttpu_asserts([
-		ttp_indentcnt("aaa\n\tbbb", "aaa{\nbbb\n}\n")
+		ttp_indentcnt("aaa\n\tbbb", "\naaa{\nbbb\n}\n"),
+		ttp_indentcnt("aaa\n\tbbb\n\t\tccc", "\naaa{\nbbb{\nccc\n}\n}\n")
 	], Flag, Cnt, CntN).
 
 
