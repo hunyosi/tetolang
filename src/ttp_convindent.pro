@@ -57,8 +57,16 @@ ttp_convindent_process_line_impl(Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 ttp_convindent_line(X, N, Body, Y) :-
 	ttp_convindent_line_count_intent(X, 0, N1, X2),
 	ttp_convindent_line_skip_blank(X2, X3),
-	ttp_convindent_line_body(X3, Body, Y),
-	(Body = [] -> N = -1 ; N = N1),
+	ttp_convindent_line_body(X3, Body1, X4),
+	!,
+	ttp_convindent_line_impl(X4, N1, Body1, Y, N, Body).
+
+
+ttp_convindent_line_impl(X, _, [], Y, DstN, DstBody) :-
+	!,
+	ttp_convindent_line(X, DstN, DstBody, Y).
+
+ttp_convindent_line_impl(Y, DstN, DstBody, Y, DstN, DstBody) :-
 	!.
 
 
