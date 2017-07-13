@@ -16,7 +16,7 @@ ttp_convemptyline_impl(X, Y) :-
 	ttp_convemptyline_impl(X2, Y2).
 
 
-ttp_convemptyline_cntchr(X, N, N [], X) :-
+ttp_convemptyline_cntchr(X, N, N, [], X) :-
 	X = [],
 	!.
 
