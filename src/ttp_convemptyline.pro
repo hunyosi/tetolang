@@ -1,3 +1,5 @@
+% :- include('ttp_utils.pro').
+
 
 ttp_convemptyline(X, Y) :-
 	ttp_convemptyline_impl(X, Y),
@@ -40,6 +42,6 @@ ttp_convemptyline_processline(0, _, Y, Y) :-
 	!.
 
 ttp_convemptyline_processline(_, Line, Y, Y2) :-
-	add_str(Y, Line, Y2),
+	ttp_lst_put_tail(Y, Line, Y2),
 	!.
 
