@@ -8,6 +8,17 @@ ttp_lst_add([], Y, Y) :- !.
 ttp_lst_add([X|Xt], Y, [X|Zt]) :- !, ttp_lst_add(Xt, Y, Zt).
 
 
+%----------------
+% ttp_lst_put_tail
+
+ttp_lst_put_tail(LastT, [], LastT) :-
+	!.
+
+ttp_lst_put_tail([SrcH | DstT], [SrcH | SrcT], LastT) :-
+	!,
+	ttp_lst_put_tail(DstT, SrcT, LastT).
+
+
 %---------------
 % ttp_lst_len
 

@@ -1,3 +1,4 @@
+% :- include('tto_utils.pro');
 
 
 ttp_convindent(X, Y) :-
@@ -27,18 +28,18 @@ ttp_convindent_process_line(N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 
 ttp_convindent_process_line_impl(0, _, CntStk, CntStk, Body, Y, Yt) :-
 	Y = [ 0x0A | Y2],
-	ttp_convindent_process_line_put(Body, Y2, Yt),
+	ttp_lst_put_tail(Y2, Body, Yt),
 	!.
 
 ttp_convindent_process_line_impl(1, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 	CntStkDst = [N | CntStkSrc],
 	Y = [ 0'{, 0x0A | Y2 ],
-	ttp_convindent_process_line_put(Body, Y2, Yt),
+	ttp_lst_put_tail(Y2, Body, Yt),
 	!.
 
 ttp_convindent_process_line_impl(2, _, CntStk, CntStk, Body, Y, Yt) :-
 	Y = [ 0x20 | Y2],
-	ttp_convindent_process_line_put(Body, Y2, Yt),
+	ttp_lst_put_tail(Y2, Body, Yt),
 	!.
 
 ttp_convindent_process_line_impl(Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
@@ -51,14 +52,6 @@ ttp_convindent_process_line_impl(Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 	ttp_convindent_process_line_impl(
 			Diff2, N, CntStkSrc2, CntStkDst,
 			Body, Y2, Yt).
-
-
-ttp_convindent_process_line_put([], LastT, LastT) :-
-	!.
-
-ttp_convindent_process_line_put([SrcH | SrcT], [SrcH | DstT], LastT) :-
-	!,
-	ttp_convindent_process_line_put(SrcT, DstT, LastT).
 
 
 ttp_convindent_line(X, N, Body, Y) :-

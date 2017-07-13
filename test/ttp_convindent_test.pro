@@ -1,5 +1,6 @@
 :- initialization(main).
 :- include('ttpu.pro').
+:- include('../src/ttp_utils.pro').
 :- include('../src/ttp_convindent.pro').
 
 
