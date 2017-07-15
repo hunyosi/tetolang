@@ -4,27 +4,30 @@
 :- include('../src/ttp_convindent.pro').
 
 
-ttp_test_convindent_line :-
-	ttpu_asserts([
-		ttp_convindent_line("\t\tabc\ndef", 2, "abc", "def")
-		, ttp_convindent_line("\t\t \ndef", -1, [], "def")
- 	]).
-
-
-ttp_test_convindent_lines :-
-	ttpu_asserts([
-		ttp_convindent("aaa\n\tbbb", "\naaa{\nbbb\n}\n"),
-		ttp_convindent("aaa\n\tbbb\n\t\tccc", "\naaa{\nbbb{\nccc\n}\n}\n")
-	]).
-
-
-ttp_test_convindent_all(Flag) :-
-	ttpu_unit_tests([
-		  ttp_test_convindent_line,
-		  ttp_test_convindent_lines
-	], Flag).
-
-
 main :-
-	ttp_test_convindent_all([verbose]),
- 	halt.
+	ttpu('ttp_convindent', [
+		ttpu('ttp_convindent_line 1', (
+			ttp_convindent_line("\t\tabc\ndef",
+					IndentCnt, LineBody, Rest),
+			ttpu_assert(IndentCnt = 2),
+			ttpu_assert(LineBody = "abc"),
+			ttpu_assert(Rest = "def")
+		)),
+		ttpu('ttp_convindent_line 2', (
+			ttp_convindent_line("\t\t \ndef",
+					IndentCnt, LineBody, Rest),
+			ttpu_assert(IndentCnt = -1),
+			ttpu_assert(LineBody = []),
+			ttpu_assert(Rest = "def")
+		)),
+		ttpu('ttp_convindent 1', (
+			ttp_convindent("aaa\n\tbbb", Res),
+			ttpu_assert(Res = "\naaa{\nbbb\n}\n")
+		)),
+		ttpu('ttp_convindent 2', (
+			ttp_convindent("aaa\n\tbbb\n\t\tccc", Res),
+			ttpu_assert(Res = "\naaa{\nbbb{\nccc\n}\n}\n")
+		))
+	]),
+	ttpu_run([verbose]),
+	halt.
