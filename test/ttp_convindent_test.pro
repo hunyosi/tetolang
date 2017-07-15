@@ -4,18 +4,18 @@
 :- include('../src/ttp_convindent.pro').
 
 
-ttp_test_convindent_line(Flag, Cnt, CntN) :-
+ttp_test_convindent_line :-
 	ttpu_asserts([
 		ttp_convindent_line("\t\tabc\ndef", 2, "abc", "def")
 		, ttp_convindent_line("\t\t \ndef", -1, [], "def")
- 	], Flag, Cnt, CntN).
+ 	]).
 
 
-ttp_test_convindent_lines(Flag, Cnt, CntN) :-
+ttp_test_convindent_lines :-
 	ttpu_asserts([
 		ttp_convindent("aaa\n\tbbb", "\naaa{\nbbb\n}\n"),
 		ttp_convindent("aaa\n\tbbb\n\t\tccc", "\naaa{\nbbb{\nccc\n}\n}\n")
-	], Flag, Cnt, CntN).
+	]).
 
 
 ttp_test_convindent_all(Flag) :-
@@ -26,5 +26,5 @@ ttp_test_convindent_all(Flag) :-
 
 
 main :-
-	ttp_test_convindent_all(true),
+	ttp_test_convindent_all([verbose]),
  	halt.
