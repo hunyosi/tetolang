@@ -1,3 +1,12 @@
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+% TTPU -- Prolog unit test tools.
+%
+% This software is made available under
+% the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+% See "LICENSE" file.
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
 %=============================================================================
 % unit test utils
 
@@ -29,12 +38,6 @@ ttpu(Description, Test) :-
 	atom(Description),
 	ttpu_add_test([], Description, Test),
 	!.
-
-
-
-
-% ----------------------------------------------------------------------------
-% ttpu_add_tests
 
 
 ttpu_add_tests(GroupName, [ttpu(Description, Test) | TestT]) :-
@@ -69,7 +72,7 @@ ttpu_run(Flags) :-
 	write(', ok: '), write(OkCnt),
 	write(', ng: '), write(NgCnt),
 	nl,
-	!.
+	ttpu_halt(OkCnt, NgCnt).
 
 
 ttpu_run(Flags, OkCnt, NgCnt) :-
@@ -158,6 +161,17 @@ ttpu_display_exception(Exception) :-
 	write(Exception),
 	nl,
 	!.
+
+
+ttpu_halt(0, 0) :-
+	write('no tests'), nl,
+	halt(1).
+
+ttpu_halt(_, 0) :-
+	halt(0).
+
+ttpu_halt(_, _) :-
+	halt(1).
 
 
 

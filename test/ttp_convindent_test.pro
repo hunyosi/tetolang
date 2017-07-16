@@ -1,10 +1,11 @@
-:- initialization(main).
-:- include('ttpu.pro').
-:- include('../src/ttp_utils.pro').
-:- include('../src/ttp_convindent.pro').
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+% This software is made available under
+% the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+% See "LICENSE" file.
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-main :-
+:- initialization(
 	ttpu('ttp_convindent', [
 		ttpu('ttp_convindent_line 1', (
 			ttp_convindent_line("\t\tabc\ndef",
@@ -28,6 +29,5 @@ main :-
 			ttp_convindent("aaa\n\tbbb\n\t\tccc", Res),
 			ttpu_assert(Res = "\naaa{\nbbb{\nccc\n}\n}\n")
 		))
-	]),
-	ttpu_run([verbose]),
-	halt.
+	])
+).

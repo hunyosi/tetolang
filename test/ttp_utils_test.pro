@@ -6,12 +6,14 @@
 
 
 :- initialization(
-	ttpu('ttp_loadutils', [
-		ttpu('ttp_load_all_text_utf8', (
-			ttp_load_all_text_utf8('ttp_loadutils_test.txt', Data),
-			ttpu_assert(Data = [
-					0x3042, 0x3044, 0x3046, 0x3048, 0x304A,
-					0x0A, 0x0A])
+	ttpu('ttp_utils', [
+		ttpu('ttp_lst_add', (
+			ttp_lst_add([a, b, c], [d, e, f], X),
+			ttpu_assert(X = [a, b, c, d, e, f])
+		)),
+		ttpu('ttp_lst_len', (
+			ttp_lst_len([a, b, c], X),
+			ttpu_assert(X = 3)
 		))
 	])
 ).
