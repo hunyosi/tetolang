@@ -180,6 +180,12 @@ ttpu_halt(_, _) :-
 % ttpu_assert, ttpu_asserts
 
 
+ttpu_assert_exception(Test, Expected) :-
+	catch(Test, Actual, true),
+	ttpu_assert((nonvar(Actual), Actual = Expected)),
+	!.
+
+
 ttpu_asserts([Test|Tests]) :-
 	ttpu_assert(Test),
 	!,
