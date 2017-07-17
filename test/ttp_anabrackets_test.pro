@@ -16,7 +16,7 @@
 					Rest),
 			ttpu_assert(var(PartT)),
 			PartT = [],
-			ttpu_assert(Part = "aaa\""),
+			ttpu_assert(Part = "\"aaa\""),
 			ttpu_assert(Rest = "bbb")
 		)),
 		ttpu('ttp_anabrackets_skipquotation 2', (
@@ -28,7 +28,7 @@
 					Rest),
 			ttpu_assert(var(PartT)),
 			PartT = [],
-			ttpu_assert(Part = "a\\\"aa\""),
+			ttpu_assert(Part = "\"a\\\"aa\""),
 			ttpu_assert(Rest = "bbb")
 		)),
 		ttpu('ttp_anabrackets_skipquotation 3', (
