@@ -4,12 +4,14 @@ ttp_anabrackets(Src, DstPart, DstRest) :-
 	!.
 
 
+ttp_anabrackets_impl(ORest, [], OPart, OPart, ORest) :-
+	!.
+
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 	(X = 0'" ; X = 0'\' ; X = 0'\`),
 	ttp_anabrackets_skipquotation(SrcT, X, OPart, OPart2, Src2),
 	!,
 	ttp_anabrackets_impl(Src2, BStk, OPart2, OPartT, ORest).
-
 
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 	ttp_anabrackets_bracketpair(X, Y),
@@ -18,10 +20,15 @@ ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 	!,
 	ttp_anabrackets_impl(SrcT, BStk2, OPart2, OPartT, ORest).
 
-ttp_anabrackets_impl([X | SrcT], OPart, OPartT, ORest) :-
+ttp_anabrackets_impl([X | SrcT], [X | BStkT], OPart, OPartT, ORest) :-
 	OPart = [X | OPart2],
 	!,
-	ttp_anabrackets_impl(Src2, OPart2, OPartT, ORest).
+	ttp_anabrackets_impl(SrcT, BStk2, OPart2, OPartT, ORest).
+
+ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
+	OPart = [X | OPart2],
+	!,
+	ttp_anabrackets_impl(Src2, BStk, OPart2, OPartT, ORest).
 */
 
 
