@@ -7,6 +7,10 @@ ttp_anabrackets(Src, DstPart, DstRest) :-
 ttp_anabrackets_impl(ORest, [], OPart, OPart, ORest) :-
 	!.
 
+ttp_anabrackets_impl([], [B | _], OPart, OPart, []) :-
+	!,
+	throw(ttp_bracket_exception(B)).
+
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 	(X = 0'" ; X = 0'\' ; X = 0'\`),
 	ttp_anabrackets_skipquotation(SrcT, X, OPart, OPart2, Src2),
