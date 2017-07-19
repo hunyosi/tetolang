@@ -45,6 +45,19 @@
 			PartT = [],
 			ttpu_assert(Part = "aaa"),
 			ttpu_assert(Rest = [])
+		)),
+
+		ttpu('ttp_anabrackets 1', (
+			ttp_anabrackets(
+					"aaa}bbb",
+					0'{,
+					Part,
+					PartT,
+					Rest),
+			ttpu_assert(var(PartT)),
+			PartT = [],
+			ttpu_assert(Part = "{aaa}"),
+			ttpu_assert(Rest = "bbb")
 		))
 	])
 ).
