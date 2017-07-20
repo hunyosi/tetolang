@@ -1,6 +1,9 @@
 
-ttp_anabrackets_isbraketopen(Chr) :-
+ttp_anabrackets_isbraket(Chr) :-
 	ttp_anabrackets_bracketpair(Chr, _).
+
+ttp_anabrackets_isbraket(Chr) :-
+	ttp_anabrackets_bracketpair(_, Chr).
 
 
 ttp_anabrackets(Src, B, DstPart, DstPartT, DstRest) :-
@@ -12,10 +15,6 @@ ttp_anabrackets(Src, B, DstPart, DstPartT, DstRest) :-
 
 ttp_anabrackets_impl(ORest, [], OPart, OPart, ORest) :-
 	!.
-
-ttp_anabrackets_impl([], [B | _], OPart, OPart, []) :-
-	!,
-	throw(ttp_bracket_exception(B)).
 
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 	(X = 0'" ; X = 0'\' ; X = 0'\`),
@@ -38,7 +37,11 @@ ttp_anabrackets_impl([X | SrcT], [X | BStkT], OPart, OPartT, ORest) :-
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 	OPart = [X | OPart2],
 	!,
-	ttp_anabrackets_impl(Src2, BStk, OPart2, OPartT, ORest).
+	ttp_anabrackets_impl(SrcT, BStk, OPart2, OPartT, ORest).
+
+ttp_anabrackets_impl([], [B | _], OPart, OPart, []) :-
+	!,
+	throw(ttp_bracket_exception(B)).
 
 
 ttp_anabrackets_bracketpair(0'(, 0')).
