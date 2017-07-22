@@ -1,11 +1,4 @@
 
-ttp_anabrackets_isbraket(Chr) :-
-	ttp_anabrackets_bracketpair(Chr, _).
-
-ttp_anabrackets_isbraket(Chr) :-
-	ttp_anabrackets_bracketpair(_, Chr).
-
-
 ttp_anabrackets(Src, B, DstPart, DstPartT, DstRest) :-
 	ttp_anabrackets_bracketpair(B, C),
 	DstPart = [B | DstPart2],
@@ -17,7 +10,7 @@ ttp_anabrackets_impl(ORest, [], OPart, OPart, ORest) :-
 	!.
 
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
-	(X = 0'" ; X = 0'\' ; X = 0'\`),
+	ttp_anabrackets_isquotation(X),
 	ttp_anabrackets_skipquotation(SrcT, X, OPart, OPart2, Src2),
 	!,
 	ttp_anabrackets_impl(Src2, BStk, OPart2, OPartT, ORest).
@@ -42,6 +35,13 @@ ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 ttp_anabrackets_impl([], [B | _], OPart, OPart, []) :-
 	!,
 	throw(ttp_bracket_exception(B)).
+
+
+ttp_anabrackets_isbracket(Chr) :-
+	ttp_anabrackets_bracketpair(Chr, _).
+
+ttp_anabrackets_isbracket(Chr) :-
+	ttp_anabrackets_bracketpair(_, Chr).
 
 
 ttp_anabrackets_bracketpair(0'(, 0')).
@@ -75,3 +75,10 @@ ttp_anabrackets_skipquotation_impl(
 ttp_anabrackets_skipquotation_impl(
 			[] , Q, OPartT, OPartT, []) :-
 	throw(ttp_quotation_exception(Q)).
+
+
+ttp_anabrackets_isquotation(0'\").
+ttp_anabrackets_isquotation(0'\').
+ttp_anabrackets_isquotation(0'\`).
+
+
