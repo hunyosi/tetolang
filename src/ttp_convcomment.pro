@@ -6,6 +6,19 @@ ttp_convcomment(X, Y) :-
 
 ttp_convcomment_impl([], []) :- !.
 
+
+ttp_convcomment_impl([Xh | Xt], Y) :-
+	ttp_anabrackets_isquotation(Xh),
+	ttp_anabrackets_skipquotation(Xt, Xh, Y, Yt, Xh2),
+	!,
+	ttp_convcomment_impl(Xh2, Yt).
+
+ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
+	ttp_anabrackets_isbracket(Xh),
+	ttp_anabrackets(Xt, Xh, Y, Yt, Xh2),
+	!,
+	ttp_convcomment_impl(Xh2, Yt).
+
 ttp_convcomment_impl([0'#, 0'* | Xt], Y) :-
 	!,
 	ttp_convcomment_skip_comment(Xt, Xh2),
