@@ -27,6 +27,14 @@
 		ttpu('test3_1', (
 			ttp_convcomment("aaa   bbb", Data),
 			ttpu_assert(Data = "aaa bbb")
+		)),
+		ttpu('test4_1', (
+			ttp_convcomment("aaa\n#{\n \"{\n\"\n}\nbbb", Data),
+			ttpu_assert(Data = "aaa\n \n\n\n\nbbb")
+		)),
+		ttpu('test5_1', (
+			ttp_convcomment("aaa\"\n   {   #*   *#\n\"\nbbb", Data),
+			ttpu_assert(Data = "aaa\"\n   {   #*   *#\n\"\nbbb")
 		))
 	])
 ).

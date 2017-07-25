@@ -15,9 +15,11 @@ ttp_convcomment_impl([Xh | Xt], Y) :-
 
 ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
 	ttp_anabrackets_isbracket(Xh),
-	ttp_anabrackets(Xt, Xh, Y, Yt, Xh2),
+	ttp_anabrackets(Xt, Xh, C, [], X2),
+	Y = [0x20 | Y2],
+	ttp_convcomment_tonewlineonly(C, Y2, Yt),
 	!,
-	ttp_convcomment_impl(Xh2, Yt).
+	ttp_convcomment_impl(X2, Yt).
 
 ttp_convcomment_impl([0'#, 0'* | Xt], Y) :-
 	!,
@@ -104,3 +106,18 @@ ttp_convcomment_blank(Xb) :- 0x202F =:= Xb, !.
 ttp_convcomment_blank(Xb) :- 0x205F =:= Xb, !.
 ttp_convcomment_blank(Xb) :- 0x3000 =:= Xb, !.
 ttp_convcomment_blank(Xb) :- 0xFEFF =:= Xb, !.
+
+
+
+ttp_convcomment_tonewlineonly([0x0A | Xt], Y, Yt) :-
+	Y = [0x0A | Y2],
+	!,
+	ttp_convcomment_tonewlineonly(Xt, Y2, Yt).
+
+ttp_convcomment_tonewlineonly([Xh | Xt], Y, Yt) :-
+	!,
+	ttp_convcomment_tonewlineonly(Xt, Y, Yt).
+
+ttp_convcomment_tonewlineonly([], Yt, Yt) :-
+	!.
+
