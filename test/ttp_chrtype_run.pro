@@ -6,9 +6,8 @@
 
 
 :- include('../src/ttp_chrtype.pro').
-:- include('../src/ttp_anabrackets.pro').
 
 :- include('ttpu.pro').
-:- include('ttp_anabrackets_test.pro').
+:- include('ttp_chrtype_test.pro').
 
 :- initialization(ttpu_run([verbose])).

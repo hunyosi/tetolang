@@ -70,45 +70,6 @@
 			PartT = [],
 			ttpu_assert(Part = "{\'{\'}"),
 			ttpu_assert(Rest = "bbb")
-		)),
-		ttpu('ttp_anabrackets_bracketpair 1', (
-			ttp_anabrackets_bracketpair(0'{, X),
-			ttpu_assert(X = 0'})
-		)),
-		ttpu('ttp_anabrackets_bracketpair 2', (
-			ttp_anabrackets_bracketpair(0'[, X),
-			ttpu_assert(X = 0'])
-		)),
-		ttpu('ttp_anabrackets_bracketpair 3', (
-			ttp_anabrackets_bracketpair(0'(, X),
-			ttpu_assert(X = 0'))
-		)),
-		ttpu('ttp_anabrackets_isbracket 1', (
-			ttpu_assert(ttp_anabrackets_isbracket(0'())
-		)),
-		ttpu('ttp_anabrackets_isbracket 2', (
-			ttpu_assert(ttp_anabrackets_isbracket(0'[))
-		)),
-		ttpu('ttp_anabrackets_isbracket 3', (
-			ttpu_assert(ttp_anabrackets_isbracket(0'{))
-		)),
-		ttpu('ttp_anabrackets_isbracket 4', (
-			ttpu_assert(ttp_anabrackets_isbracket(0')))
-		)),
-		ttpu('ttp_anabrackets_isbracket 5', (
-			ttpu_assert(ttp_anabrackets_isbracket(0']))
-		)),
-		ttpu('ttp_anabrackets_isbracket 6', (
-			ttpu_assert(ttp_anabrackets_isbracket(0'}))
-		)),
-		ttpu('ttp_anabrackets_isquotation 1', (
-			ttpu_assert(ttp_anabrackets_isquotation(0'\'))
-		)),
-		ttpu('ttp_anabrackets_isquotation 2', (
-			ttpu_assert(ttp_anabrackets_isquotation(0'\"))
-		)),
-		ttpu('ttp_anabrackets_isquotation 3', (
-			ttpu_assert(ttp_anabrackets_isquotation(0'\`))
 		))
 	])
 ).

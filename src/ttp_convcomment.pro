@@ -8,18 +8,24 @@ ttp_convcomment_impl([], []) :- !.
 
 
 ttp_convcomment_impl([Xh | Xt], Y) :-
-	ttp_anabrackets_isquotation(Xh),
+	ttp_chrtype_isquotation(Xh),
 	ttp_anabrackets_skipquotation(Xt, Xh, Y, Yt, Xh2),
 	!,
 	ttp_convcomment_impl(Xh2, Yt).
 
 ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
-	ttp_anabrackets_isbracket(Xh),
+	ttp_chrtype_isbracket(Xh),
 	ttp_anabrackets(Xt, Xh, C, [], X2),
 	Y = [0x20 | Y2],
 	ttp_convcomment_tonewlineonly(C, Y2, Yt),
 	!,
 	ttp_convcomment_impl(X2, Yt).
+
+ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
+	ttp_chrtype_isquotation(Xh),
+	ttp_anabrackets_skipquotation(Xt, Xh, Y, Yt, Xh2),
+	!,
+	ttp_convcomment_impl(Xh2, Yt).
 
 ttp_convcomment_impl([0'#, 0'* | Xt], Y) :-
 	!,
@@ -35,7 +41,7 @@ ttp_convcomment_impl([0'# | Xt], Y) :-
 	ttp_convcomment_impl(Xh2, Yt).
 
 ttp_convcomment_impl([Xh | Xt], Y) :-
-	ttp_convcomment_blank(Xh),
+	ttp_chrtype_isnottabblank(Xh),
 	ttp_convcomment_skip_blank(Xt, Xh2),
 	Y = [0x20 | Yt],
 	!,
@@ -88,25 +94,11 @@ ttp_convcomment_skip_line([_ | Xt], Y) :-
 
 
 ttp_convcomment_skip_blank([Xb|Xt], X2) :-
-	ttp_convcomment_blank(Xb),
+	ttp_chrtype_isblank(Xb),
 	!,
 	ttp_convcomment_skip_blank(Xt, X2).
 
 ttp_convcomment_skip_blank(X, X) :- !.
-
-
-ttp_convcomment_blank(Xb) :- 0x0000 =< Xb, Xb =< 0x0008, !.
-ttp_convcomment_blank(Xb) :- 0x000B =< Xb, Xb =< 0x0020, !.
-ttp_convcomment_blank(Xb) :- 0x007F =< Xb, Xb =< 0x00A0, !.
-ttp_convcomment_blank(Xb) :- 0x00AD =:= Xb, !.
-ttp_convcomment_blank(Xb) :- 0x1680 =:= Xb, !.
-ttp_convcomment_blank(Xb) :- 0x180E =:= Xb, !.
-ttp_convcomment_blank(Xb) :- 0x2000 =< Xb, Xb =< 0x200B, !.
-ttp_convcomment_blank(Xb) :- 0x202F =:= Xb, !.
-ttp_convcomment_blank(Xb) :- 0x205F =:= Xb, !.
-ttp_convcomment_blank(Xb) :- 0x3000 =:= Xb, !.
-ttp_convcomment_blank(Xb) :- 0xFEFF =:= Xb, !.
-
 
 
 ttp_convcomment_tonewlineonly([0x0A | Xt], Y, Yt) :-
@@ -114,10 +106,9 @@ ttp_convcomment_tonewlineonly([0x0A | Xt], Y, Yt) :-
 	!,
 	ttp_convcomment_tonewlineonly(Xt, Y2, Yt).
 
-ttp_convcomment_tonewlineonly([Xh | Xt], Y, Yt) :-
+ttp_convcomment_tonewlineonly([_ | Xt], Y, Yt) :-
 	!,
 	ttp_convcomment_tonewlineonly(Xt, Y, Yt).
 
 ttp_convcomment_tonewlineonly([], Yt, Yt) :-
 	!.
-

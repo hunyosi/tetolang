@@ -1,6 +1,13 @@
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+% This software is made available under
+% the Creative Commons CC0 1.0 Universal Public Domain Dedication.
+% See "LICENSE" file.
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+% :- include('ttp_chrtype.pro');
 
 ttp_anabrackets(Src, B, DstPart, DstPartT, DstRest) :-
-	ttp_anabrackets_bracketpair(B, C),
+	ttp_chrtype_bracketpair(B, C),
 	DstPart = [B | DstPart2],
 	ttp_anabrackets_impl(Src, [C], DstPart2, DstPartT, DstRest),
 	!.
@@ -10,13 +17,13 @@ ttp_anabrackets_impl(ORest, [], OPart, OPart, ORest) :-
 	!.
 
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
-	ttp_anabrackets_isquotation(X),
+	ttp_chrtype_isquotation(X),
 	ttp_anabrackets_skipquotation(SrcT, X, OPart, OPart2, Src2),
 	!,
 	ttp_anabrackets_impl(Src2, BStk, OPart2, OPartT, ORest).
 
 ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
-	ttp_anabrackets_bracketpair(X, Y),
+	ttp_chrtype_bracketpair(X, Y),
 	BStk2 = [Y | BStk],
 	OPart = [OPart | OPart2],
 	!,
@@ -35,18 +42,6 @@ ttp_anabrackets_impl([X | SrcT], BStk, OPart, OPartT, ORest) :-
 ttp_anabrackets_impl([], [B | _], OPart, OPart, []) :-
 	!,
 	throw(ttp_bracket_exception(B)).
-
-
-ttp_anabrackets_isbracket(Chr) :-
-	ttp_anabrackets_bracketpair(Chr, _).
-
-ttp_anabrackets_isbracket(Chr) :-
-	ttp_anabrackets_bracketpair(_, Chr).
-
-
-ttp_anabrackets_bracketpair(0'(, 0')).
-ttp_anabrackets_bracketpair(0'[, 0']).
-ttp_anabrackets_bracketpair(0'{, 0'}).
 
 
 ttp_anabrackets_skipquotation(Src, Q, OPart, OPartT, ORest) :-
@@ -75,10 +70,4 @@ ttp_anabrackets_skipquotation_impl(
 ttp_anabrackets_skipquotation_impl(
 			[] , Q, OPartT, OPartT, []) :-
 	throw(ttp_quotation_exception(Q)).
-
-
-ttp_anabrackets_isquotation(0'\").
-ttp_anabrackets_isquotation(0'\').
-ttp_anabrackets_isquotation(0'\`).
-
 

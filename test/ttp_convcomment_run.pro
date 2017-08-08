@@ -5,6 +5,7 @@
 %XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
+:- include('../src/ttp_chrtype.pro').
 :- include('../src/ttp_anabrackets.pro').
 :- include('../src/ttp_convcomment.pro').
 
