@@ -33,9 +33,34 @@
 			ttpu_assert(Data = "aaa\nccc")
 		)),
 		ttpu('test2_4', (
+			ttp_convcomment("aaa#bbb\nccc", Data),
+			ttpu_assert(Data = "aaa#bbb\nccc")
+		)),
+		ttpu('test2_5', (
+			ttp_convcomment("aaa#_bb\nccc", Data),
+			ttpu_assert(Data = "aaa#_bb\nccc")
+		)),
+		ttpu('test2_6', (
+			ttp_convcomment("aaa#123\nccc", Data),
+			ttpu_assert(Data = "aaa#123\nccc")
+		)),
+		ttpu('test2_7', (
+			ttp_convcomment("aaa#\"b#@bb\"\nccc", Data),
+			ttpu_assert(Data = "aaa#\"b#@bb\"\nccc")
+		)),
+		ttpu('test2_8', (
+			ttp_convcomment("aaa#{bbb}\nccc", Data),
+			ttpu_assert(Data = "aaa#{bbb}\nccc")
+		)),
+		ttpu('test2_9', (
 			ttpu_assert_exception(
-				ttp_convcomment("aaa#bbb\nccc", _),
-				ttp_comment_exception([0'#, 0'b]))
+				ttp_convcomment("aaa{bbb#}\nccc", _),
+				ttp_comment_exception([0'#, 0'}]))
+		)),
+		ttpu('test2_10', (
+			ttpu_assert_exception(
+				ttp_convcomment("aaa#@bbb\nccc", _),
+				ttp_comment_exception([0'#, 0'@]))
 		)),
 		ttpu('test3_1', (
 			ttp_convcomment("aaa   bbb", Data),

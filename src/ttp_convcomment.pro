@@ -15,13 +15,13 @@ ttp_convcomment_impl([Xh | Xt], Y) :-
 
 ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
 	ttp_chrtype_isalnum(Xh),
-	Y = [0'# | Xt],
+	Y = [0'#, Xh | Xt],
 	!,
 	ttp_convcomment_impl(Xt, Yt).
 
 ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
 	ttp_chrtype_bracketpair(Xh, _),
-	Y = [0'# | Xt],
+	Y = [0'#, Xh | Xt],
 	!,
 	ttp_convcomment_impl(Xt, Yt).
 
