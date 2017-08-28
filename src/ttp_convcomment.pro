@@ -14,16 +14,21 @@ ttp_convcomment_impl([Xh | Xt], Y) :-
 	ttp_convcomment_impl(Xh2, Yt).
 
 ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
-	ttp_chrtype_isbracket(Xh),
-	ttp_anabrackets(Xt, Xh, C, [], X2),
-	Y = [0x20 | Y2],
-	ttp_convcomment_tonewlineonly(C, Y2, Yt),
+	ttp_chrtype_isalnum(Xh),
+	Y = [0'# | Xt],
 	!,
-	ttp_convcomment_impl(X2, Yt).
+	ttp_convcomment_impl(Xt, Yt).
+
+ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
+	ttp_chrtype_bracketpair(Xh, _),
+	Y = [0'# | Xt],
+	!,
+	ttp_convcomment_impl(Xt, Yt).
 
 ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
 	ttp_chrtype_isquotation(Xh),
-	ttp_anabrackets_skipquotation(Xt, Xh, Y, Yt, Xh2),
+	Y = [0'# | Y2],
+	ttp_anabrackets_skipquotation(Xt, Xh, Y2, Yt, Xh2),
 	!,
 	ttp_convcomment_impl(Xh2, Yt).
 
@@ -34,11 +39,27 @@ ttp_convcomment_impl([0'#, 0'* | Xt], Y) :-
 	!,
 	ttp_convcomment_impl(Xh2, Yt).
 
-ttp_convcomment_impl([0'# | Xt], Y) :-
+ttp_convcomment_impl([0'#, 0'# | Xt], Y) :-
 	ttp_convcomment_skip_line(Xt, Xh2),
 	Y = [0x0A | Yt],
 	!,
 	ttp_convcomment_impl(Xh2, Yt).
+
+ttp_convcomment_impl([0'#, 0'! | Xt], Y) :-
+	ttp_convcomment_skip_line(Xt, Xh2),
+	Y = [0x0A | Yt],
+	!,
+	ttp_convcomment_impl(Xh2, Yt).
+
+ttp_convcomment_impl([0'#, Xh | Xt], Y) :-
+	ttp_chrtype_isblank(Xh),
+	ttp_convcomment_skip_line(Xt, Xh2),
+	Y = [0x0A | Yt],
+	!,
+	ttp_convcomment_impl(Xh2, Yt).
+
+ttp_convcomment_impl([0'#, Xh | _], Y) :-
+	throw(ttp_comment_exception([0'#, Xh])).
 
 ttp_convcomment_impl([Xh | Xt], Y) :-
 	ttp_chrtype_isnottabblank(Xh),

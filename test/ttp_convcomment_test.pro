@@ -21,8 +21,21 @@
 			ttpu_assert(Data = "aaa \n\nccc")
 		)),
 		ttpu('test2_1', (
-			ttp_convcomment("aaa#bbb\nccc", Data),
+			ttp_convcomment("aaa##bbb\nccc", Data),
 			ttpu_assert(Data = "aaa\nccc")
+		)),
+		ttpu('test2_2', (
+			ttp_convcomment("aaa#!bbb\nccc", Data),
+			ttpu_assert(Data = "aaa\nccc")
+		)),
+		ttpu('test2_3', (
+			ttp_convcomment("aaa# bbb\nccc", Data),
+			ttpu_assert(Data = "aaa\nccc")
+		)),
+		ttpu('test2_4', (
+			ttpu_assert_exception(
+				ttp_convcomment("aaa#bbb\nccc", _),
+				ttp_comment_exception([0'#, 0'b]))
 		)),
 		ttpu('test3_1', (
 			ttp_convcomment("aaa   bbb", Data),
@@ -30,7 +43,7 @@
 		)),
 		ttpu('test4_1', (
 			ttp_convcomment("aaa\n#{\n \"{\n\"\n}\nbbb", Data),
-			ttpu_assert(Data = "aaa\n \n\n\n\nbbb")
+			ttpu_assert(Data = "aaa\n#{\n \"{\n\"\n}\nbbb")
 		)),
 		ttpu('test4_2', (
 			ttp_convcomment("aaa\"\n   {   #*   *#\n\"\nbbb", Data),
@@ -38,7 +51,7 @@
 		)),
 		ttpu('test4_3', (
 			ttp_convcomment("{\n{\n#{\n{\n{}\n}\n}\n}\n}", Data),
-			ttpu_assert(Data = "{\n{\n \n\n\n\n\n}\n}")
+			ttpu_assert(Data = "{\n{\n#{\n{\n{}\n}\n}\n}\n}")
 		))
 	])
 ).
