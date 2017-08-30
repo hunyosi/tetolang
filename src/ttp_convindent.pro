@@ -56,10 +56,10 @@ ttp_convindent_process_line_impl(Diff, N, CntStkSrc, CntStkDst, Body, Y, Yt) :-
 
 ttp_convindent_line(X, N, Body, Y) :-
 	ttp_convindent_line_count_intent(X, 0, N1, X2),
-	ttp_convindent_line_skip_blank(X2, X3),
-	ttp_convindent_line_body(X3, Body1, X4),
+	ttp_convindent_line_check_blank(X2),
+	ttp_convindent_line_body(X2, Body1, X3),
 	!,
-	ttp_convindent_line_impl(X4, N1, Body1, Y, N, Body).
+	ttp_convindent_line_impl(X3, N1, Body1, Y, N, Body).
 
 
 ttp_convindent_line_impl(X, _, [], Y, DstN, DstBody) :-
@@ -79,11 +79,11 @@ ttp_convindent_line_count_intent(Y, M, M, Y) :-
 	!.
 
 
-ttp_convindent_line_skip_blank([0x20 | Xt], Y) :-
+ttp_convindent_line_check_blank([0x20 | _]) :-
 	!,
-	ttp_convindent_line_skip_blank(Xt, Y).
+	throw(ttp_line_top_blank_exception).
 
-ttp_convindent_line_skip_blank(Y, Y) :-
+ttp_convindent_line_check_blank(_) :-
 	!.
 
 

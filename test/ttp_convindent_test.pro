@@ -15,11 +15,10 @@
 			ttpu_assert(Rest = "def")
 		)),
 		ttpu('ttp_convindent_line 2', (
-			ttp_convindent_line("\t\t \ndef",
-					IndentCnt, LineBody, Rest),
-			ttpu_assert(IndentCnt = -1),
-			ttpu_assert(LineBody = []),
-			ttpu_assert(Rest = "def")
+			ttpu_assert_exception(
+				ttp_convindent_line("\t\t abc\ndef",
+						_, _, _),
+				ttp_line_top_blank_exception)
 		)),
 		ttpu('ttp_convindent 1', (
 			ttp_convindent("aaa\n\tbbb", Res),
