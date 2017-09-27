@@ -27,6 +27,27 @@
 		ttpu('ttp_convindent 2', (
 			ttp_convindent("aaa\n\tbbb\n\t\tccc", Res),
 			ttpu_assert(Res = "\naaa{\nbbb{\nccc\n}\n}\n")
+		)),
+		ttpu('ttp_convindent 3', (
+			ttp_convindent("aaa\n\tbbb\n\t\t\tccc", Res),
+			ttpu_assert(Res = "\naaa{\nbbb ccc\n}\n")
+		)),
+		ttpu('ttp_convindent 4', (
+			ttpu_assert_exception(
+				ttp_convindent("aaa\n\tbbb\n\t\t\t\tccc", _),
+				ttp_illegal_indent_exception)
+		)),
+		ttpu('ttp_convindent 5', (
+			ttp_convindent("aaa(\n\tbbb\n\t\tccc) ddd", Res),
+			ttpu_assert(Res = "\naaa(\n\tbbb\n\t\tccc) ddd\n")
+		)),
+		ttpu('ttp_convindent 6', (
+			ttp_convindent("aaa\n\tbbb\n\t\t\tccc\n\t\t\tddd\n\t\t\teee\n\tfff\n\t\t\tggg\n\t\t\thhh\n\tiii\n\t\t\tjjj", Res),
+			ttpu_assert(Res = "\naaa{\nbbb ccc ddd eee\nfff ggg hhh\niii jjj\n}\n")
+		)),
+		ttpu('ttp_convindent 7', (
+			ttp_convindent("aaa\n\tbbb\n\t\t\tccc\n\t\t\tddd\n\t\t\teee\n\t\tfff\n\t\t\t\tggg\n\t\t\t\thhh\n\tiii\n\t\t\tjjj", Res),
+			ttpu_assert(Res = "\naaa{\nbbb ccc ddd eee{\nfff ggg hhh\n}\niii jjj\n}\n")
 		))
 	])
 ).

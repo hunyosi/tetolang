@@ -4,7 +4,7 @@
 % See "LICENSE" file.
 %XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-% :- include('ttp_chrtype.pro');
+% :- include('ttp_chrtype.pro').
 
 ttp_anabrackets(Src, B, DstPart, DstPartT, DstRest) :-
 	ttp_chrtype_bracketpair(B, C),
@@ -70,4 +70,3 @@ ttp_anabrackets_skipquotation_impl(
 ttp_anabrackets_skipquotation_impl(
 			[] , Q, OPartT, OPartT, []) :-
 	throw(ttp_quotation_exception(Q)).
-

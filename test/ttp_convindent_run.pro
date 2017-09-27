@@ -6,6 +6,8 @@
 
 
 :- include('../src/ttp_utils.pro').
+:- include('../src/ttp_chrtype.pro').
+:- include('../src/ttp_anabrackets.pro').
 :- include('../src/ttp_convindent.pro').
 
 :- include('ttpu.pro').
